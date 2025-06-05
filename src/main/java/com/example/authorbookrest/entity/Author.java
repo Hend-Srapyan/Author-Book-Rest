@@ -16,6 +16,7 @@ import java.util.Date;
 @Entity
 @Table(name = "author")
 public class Author {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -26,5 +27,4 @@ public class Author {
     private Date dateOfBirthday;
     @Enumerated(EnumType.STRING)
     private Gender gender;
-
 }

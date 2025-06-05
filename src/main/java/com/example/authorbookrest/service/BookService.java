@@ -1,9 +1,7 @@
 package com.example.authorbookrest.service;
 
-
 import com.example.authorbookrest.dto.BookDto;
 import com.example.authorbookrest.dto.SaveBookRequest;
-import com.example.authorbookrest.entity.Book;
 
 import java.util.List;
 
@@ -18,5 +16,4 @@ public interface BookService {
     void deleteById(int id);
 
     BookDto update(SaveBookRequest bookRequest);
-
 }

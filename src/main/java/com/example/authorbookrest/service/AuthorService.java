@@ -4,7 +4,6 @@ import com.example.authorbookrest.dto.AuthorDto;
 import com.example.authorbookrest.dto.SaveAuthorRequest;
 import com.example.authorbookrest.entity.Author;
 
-
 import java.util.List;
 import java.util.Optional;
 
@@ -21,5 +20,4 @@ public interface AuthorService {
     AuthorDto update(SaveAuthorRequest authorRequest);
 
     Optional<Author> findByPhone(String phone);
-
 }

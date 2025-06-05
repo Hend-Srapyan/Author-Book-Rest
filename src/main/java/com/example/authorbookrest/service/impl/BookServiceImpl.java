@@ -1,19 +1,15 @@
 package com.example.authorbookrest.service.impl;
 
-
 import com.example.authorbookrest.dto.BookDto;
 import com.example.authorbookrest.dto.SaveBookRequest;
 import com.example.authorbookrest.entity.Book;
-import com.example.authorbookrest.exception.AuthorNotFoundException;
 import com.example.authorbookrest.exception.BookNotFoundException;
 import com.example.authorbookrest.mapper.BookMapper;
 import com.example.authorbookrest.repository.BookRepository;
 import com.example.authorbookrest.service.BookService;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -29,7 +25,6 @@ public class BookServiceImpl implements BookService {
         return bookMapper.toDtoList(books);
     }
 
-
     @Override
     public BookDto save(SaveBookRequest bookRequest) {
         Book book = bookRepository.save(bookMapper.toEntity(bookRequest));
@@ -38,10 +33,10 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto findById(int id) {
-       Book book = bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException("Book not found with " + id + " id"));
-       if (book == null) {
-           return null;
-       }
+        Book book = bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException("Book not found with " + id + " id"));
+        if (book == null) {
+            return null;
+        }
         return bookMapper.toDto(book);
     }
 
@@ -59,5 +54,4 @@ public class BookServiceImpl implements BookService {
         Book book = bookRepository.save(bookMapper.toEntity(bookRequest));
         return bookMapper.toDto(book);
     }
-
 }

@@ -1,6 +1,5 @@
 package com.example.authorbookrest.dto;
 
-
 import com.example.authorbookrest.entity.Author;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
