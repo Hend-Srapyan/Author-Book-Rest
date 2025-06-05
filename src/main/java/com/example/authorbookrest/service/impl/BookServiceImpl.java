@@ -4,6 +4,9 @@ package com.example.authorbookrest.service.impl;
 import com.example.authorbookrest.dto.BookDto;
 import com.example.authorbookrest.dto.SaveBookRequest;
 import com.example.authorbookrest.entity.Book;
+import com.example.authorbookrest.exception.AuthorNotFoundException;
+import com.example.authorbookrest.exception.BookNotFoundException;
+import com.example.authorbookrest.mapper.BookMapper;
 import com.example.authorbookrest.repository.BookRepository;
 import com.example.authorbookrest.service.BookService;
 import lombok.RequiredArgsConstructor;
@@ -18,76 +21,43 @@ import java.util.List;
 public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
+    private final BookMapper bookMapper;
 
     @Override
     public List<BookDto> findAll() {
         List<Book> books = bookRepository.findAll();
-        List<BookDto> result = new ArrayList<>();
-        for (Book book : books) {
-            result.add(new BookDto().builder()
-                    .id(book.getId())
-                    .title(book.getTitle())
-                    .price(book.getPrice())
-                    .author(book.getAuthor())
-                    .build());
-        }
-        return result;
+        return bookMapper.toDtoList(books);
     }
 
 
     @Override
     public BookDto save(SaveBookRequest bookRequest) {
-        Book book = bookRepository.save(Book.builder()
-                .title(bookRequest.getTitle())
-                .price(bookRequest.getPrice())
-                .qty(bookRequest.getQty())
-                .createdAt(bookRequest.getCreatedAt())
-                .author(bookRequest.getAuthor())
-                .build());
-
-        return BookDto.builder()
-                .id(book.getId())
-                .title(book.getTitle())
-                .price(book.getPrice())
-                .author(book.getAuthor())
-                .build();
+        Book book = bookRepository.save(bookMapper.toEntity(bookRequest));
+        return bookMapper.toDto(book);
     }
 
     @Override
     public BookDto findById(int id) {
-       Book book = bookRepository.findById(id).orElse(null);
+       Book book = bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException("Book not found with " + id + " id"));
        if (book == null) {
            return null;
        }
-        return BookDto.builder()
-                .id(book.getId())
-                .title(book.getTitle())
-                .price(book.getPrice())
-                .author(book.getAuthor())
-                .build();
+        return bookMapper.toDto(book);
     }
 
     @Override
     public void deleteById(int id) {
+        if (!bookRepository.existsById(id)) {
+            throw new BookNotFoundException("Book not found with " + id + " id");
+        }
         bookRepository.deleteById(id);
     }
 
     @Override
     public BookDto update(SaveBookRequest bookRequest) {
-        Book book = bookRepository.save(Book.builder()
-                .title(bookRequest.getTitle())
-                .price(bookRequest.getPrice())
-                .qty(bookRequest.getQty())
-                .createdAt(bookRequest.getCreatedAt())
-                .author(bookRequest.getAuthor())
-                .build());
 
-        return BookDto.builder()
-                .id(book.getId())
-                .title(book.getTitle())
-                .price(book.getPrice())
-                .author(book.getAuthor())
-                .build();
+        Book book = bookRepository.save(bookMapper.toEntity(bookRequest));
+        return bookMapper.toDto(book);
     }
 
 }

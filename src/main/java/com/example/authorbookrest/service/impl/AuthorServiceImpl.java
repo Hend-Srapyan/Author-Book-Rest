@@ -3,6 +3,8 @@ package com.example.authorbookrest.service.impl;
 import com.example.authorbookrest.dto.AuthorDto;
 import com.example.authorbookrest.dto.SaveAuthorRequest;
 import com.example.authorbookrest.entity.Author;
+import com.example.authorbookrest.exception.AuthorNotFoundException;
+import com.example.authorbookrest.mapper.AuthorMapper;
 import com.example.authorbookrest.repository.AuthorRepository;
 import com.example.authorbookrest.service.AuthorService;
 import lombok.RequiredArgsConstructor;
@@ -17,80 +19,41 @@ import java.util.Optional;
 public class AuthorServiceImpl implements AuthorService {
 
     private final AuthorRepository authorRepository;
+    private final AuthorMapper authorMapper;
 
     @Override
     public List<AuthorDto> findAll() {
         List<Author> authors = authorRepository.findAll();
-        List<AuthorDto> result = new ArrayList<>();
-        for (Author author : authors) {
-            result.add(new AuthorDto().builder()
-                    .id(author.getId())
-                    .name(author.getName())
-                    .surname(author.getSurname())
-                    .phone(author.getPhone())
-                    .gender(author.getGender())
-                    .build());
-
-        }
-        return result;
+        return authorMapper.toDtoList(authors);
     }
 
     @Override
     public AuthorDto save(SaveAuthorRequest authorRequest) {
-        Author author = authorRepository.save(Author.builder()
-                .name(authorRequest.getName())
-                .surname(authorRequest.getSurname())
-                .phone(authorRequest.getPhone())
-                .dateOfBirthday(authorRequest.getDateOfBirthday())
-                .gender(authorRequest.getGender())
-                .build());
-
-        return AuthorDto.builder()
-                .id(author.getId())
-                .name(author.getName())
-                .surname(author.getSurname())
-                .phone(author.getPhone())
-                .gender(author.getGender())
-                .build();
+        Author author = authorRepository.save(authorMapper.toEntity(authorRequest));
+        return authorMapper.toDto(author);
     }
 
     @Override
     public void deleteById(int id) {
+        if (!authorRepository.existsById(id)) {
+            throw new AuthorNotFoundException("Author not found with " + id + " id");
+        }
         authorRepository.deleteById(id);
     }
 
     @Override
     public AuthorDto findById(int id) {
-        Author author = authorRepository.findById(id).orElse(null);
+        Author author = authorRepository.findById(id).orElseThrow(()-> new AuthorNotFoundException("Author not found with " + id + " id"));
         if (author == null) {
             return null;
         }
-        return AuthorDto.builder()
-                .id(author.getId())
-                .name(author.getName())
-                .surname(author.getSurname())
-                .phone(author.getPhone())
-                .gender(author.getGender())
-                .build();
+        return authorMapper.toDto(author);
     }
 
     @Override
     public AuthorDto update(SaveAuthorRequest authorRequest) {
-        Author author = authorRepository.save(Author.builder()
-                .name(authorRequest.getName())
-                .surname(authorRequest.getSurname())
-                .phone(authorRequest.getPhone())
-                .dateOfBirthday(authorRequest.getDateOfBirthday())
-                .gender(authorRequest.getGender())
-                .build());
-
-        return AuthorDto.builder()
-                .id(author.getId())
-                .name(author.getName())
-                .surname(author.getSurname())
-                .phone(author.getPhone())
-                .gender(author.getGender())
-                .build();
+        Author author = authorRepository.save(authorMapper.toEntity(authorRequest));
+        return authorMapper.toDto(author);
     }
 
     @Override

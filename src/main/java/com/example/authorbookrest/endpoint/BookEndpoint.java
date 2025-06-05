@@ -2,8 +2,8 @@ package com.example.authorbookrest.endpoint;
 
 import com.example.authorbookrest.dto.BookDto;
 import com.example.authorbookrest.dto.SaveBookRequest;
-import com.example.authorbookrest.entity.Book;
 import com.example.authorbookrest.service.BookService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,10 +28,9 @@ public class BookEndpoint {
     }
 
     @PostMapping("/books")
-    public ResponseEntity<BookDto> addBook(@RequestBody SaveBookRequest bookRequest) {
-       return ResponseEntity.ok(bookService.save(bookRequest));
+    public ResponseEntity<BookDto> addBook(@RequestBody @Valid SaveBookRequest saveBookRequest) {
+        return ResponseEntity.ok(bookService.save(saveBookRequest));
     }
-
     @DeleteMapping("/books/{id}")
     public ResponseEntity<?> deleteBook(@PathVariable("id") int id) {
         bookService.deleteById(id);

@@ -16,5 +16,6 @@ public class BookDto {
     private int id;
     private String title;
     private double price;
+    private int qty;
     private Author author;
 }

@@ -3,6 +3,7 @@ package com.example.authorbookrest.endpoint;
 import com.example.authorbookrest.dto.AuthorDto;
 import com.example.authorbookrest.dto.SaveAuthorRequest;
 import com.example.authorbookrest.service.AuthorService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class AuthorEndpoint {
     }
 
     @PostMapping("/authors")
-    public ResponseEntity<?> addAuthor(@RequestBody SaveAuthorRequest authorRequest) {
+    public ResponseEntity<?> addAuthor(@RequestBody @Valid SaveAuthorRequest authorRequest) {
         if (authorService.findByPhone(authorRequest.getPhone()).isPresent()) {
             return ResponseEntity.badRequest().body("Phone number already exist");
         }
