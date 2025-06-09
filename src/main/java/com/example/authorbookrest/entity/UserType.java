@@ -1,5 +1,5 @@
 package com.example.authorbookrest.entity;
 
-public enum Gender {
-    MALE, FEMALE
+public enum UserType {
+    ADMIN,USER
 }

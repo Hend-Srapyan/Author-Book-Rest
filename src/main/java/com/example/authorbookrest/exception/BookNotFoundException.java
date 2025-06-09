@@ -2,8 +2,7 @@ package com.example.authorbookrest.exception;
 
 public class BookNotFoundException extends RuntimeException {
 
-    public BookNotFoundException() {
-    }
+    public BookNotFoundException() {}
 
     public BookNotFoundException(String message) {
         super(message);

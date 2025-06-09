@@ -4,7 +4,6 @@ import com.example.authorbookrest.dto.BookDto;
 import com.example.authorbookrest.dto.SaveBookRequest;
 import com.example.authorbookrest.entity.Book;
 import org.mapstruct.Mapper;
-
 import java.util.List;
 
 @Mapper(componentModel = "spring")

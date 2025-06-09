@@ -1,20 +1,18 @@
 package com.example.authorbookrest.dto;
 
-import com.example.authorbookrest.entity.Gender;
+import com.example.authorbookrest.entity.UserType;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class AuthorDto {
+@NoArgsConstructor
+public class SaveUserRequest {
 
-    private int id;
     private String name;
     private String surname;
-    private String phone;
-    private Gender gender;
+    private String email;
+    private String password;
+    private UserType userType;
 }

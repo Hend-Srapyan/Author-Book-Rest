@@ -2,7 +2,6 @@ package com.example.authorbookrest.service;
 
 import com.example.authorbookrest.dto.BookDto;
 import com.example.authorbookrest.dto.SaveBookRequest;
-
 import java.util.List;
 
 public interface BookService {
