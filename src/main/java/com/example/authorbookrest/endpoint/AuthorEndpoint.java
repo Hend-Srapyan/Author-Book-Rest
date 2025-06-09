@@ -3,21 +3,26 @@ package com.example.authorbookrest.endpoint;
 import com.example.authorbookrest.dto.AuthorDto;
 import com.example.authorbookrest.dto.SaveAuthorRequest;
 import com.example.authorbookrest.service.AuthorService;
+import com.example.authorbookrest.service.security.CurrentUser;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class AuthorEndpoint {
 
     private final AuthorService authorService;
 
     @GetMapping("/authors")
-    public ResponseEntity<List<AuthorDto>> getAllAuthors() {
+    public ResponseEntity<List<AuthorDto>> getAllAuthors(@AuthenticationPrincipal CurrentUser currentUser) {
+        log.info("request from {} user", currentUser.getUsername());
         return ResponseEntity.ok(authorService.findAll());
     }
 
