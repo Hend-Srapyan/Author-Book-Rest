@@ -4,6 +4,7 @@ import com.example.authorbookrest.dto.AuthorDto;
 import com.example.authorbookrest.dto.SaveAuthorRequest;
 import com.example.authorbookrest.service.AuthorService;
 import com.example.authorbookrest.service.security.CurrentUser;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,7 @@ public class AuthorEndpoint {
 
     private final AuthorService authorService;
 
+    @SecurityRequirement(name = "bearerAuth")
     @GetMapping("/authors")
     public ResponseEntity<List<AuthorDto>> getAllAuthors(@AuthenticationPrincipal CurrentUser currentUser) {
         log.info("request from {} user", currentUser.getUsername());
